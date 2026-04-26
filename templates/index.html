@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EditVerse Downloader</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+
+        body {
+            background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            display: flex; justify-content: center; align-items: center;
+            height: 100vh; color: #fff;
+        }
+
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        .container {
+            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px 30px; width: 90%; max-width: 400px;
+            text-align: center; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        h1 { font-size: 24px; font-weight: 700; margin-bottom: 10px; letter-spacing: 1px; }
+        .subtitle { font-size: 14px; font-weight: 300; color: #ccc; margin-bottom: 30px; }
+
+        input[type="text"], select {
+            width: 100%; padding: 15px; margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff; border-radius: 10px; outline: none; font-size: 14px;
+            transition: border 0.3s ease;
+        }
+
+        input[type="text"]:focus, select:focus { border: 1px solid #ff0055; }
+        input::placeholder { color: rgba(255, 255, 255, 0.5); }
+        
+        select optgroup { background: #1a1a2e; color: #ff0055; font-weight: bold; }
+        select option { background: #24243e; color: #fff; font-weight: normal; }
+
+        button {
+            width: 100%; padding: 15px;
+            background: linear-gradient(90deg, #ff0055, #ff0088);
+            color: white; border: none; border-radius: 10px;
+            font-size: 16px; font-weight: 600; cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        button:active { transform: scale(0.95); }
+
+        .loader {
+            display: none; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%;
+            border-top: 3px solid #fff; width: 20px; height: 20px;
+            animation: spin 1s linear infinite; margin: 0 auto;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .loading .btn-text { display: none; }
+        .loading .loader { display: block; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>EditVerse</h1>
+        <p class="subtitle">Ultimate Media Extractor</p>
+
+        <form action="/download" method="POST" id="downloadForm">
+            <input type="text" name="url" placeholder="Paste YouTube link here..." required autocomplete="off">
+            
+            <select name="format">
+                <optgroup label="Video Quality">
+                    <option value="2160">4K Ultra HD (2160p)</option>
+                    <option value="1440">2K Quad HD (1440p)</option>
+                    <option value="1080" selected>Full HD (1080p)</option>
+                    <option value="720">HD (720p)</option>
+                    <option value="480">SD (480p)</option>
+                    <option value="360">Low (360p)</option>
+                    <option value="240">Very Low (240p)</option>
+                    <option value="144">Lowest (144p)</option>
+                </optgroup>
+                <optgroup label="Audio Formats">
+                    <option value="mp3">MP3 (Standard Audio)</option>
+                    <option value="m4a">M4A (Apple Audio)</option>
+                    <option value="wav">WAV (Uncompressed)</option>
+                    <option value="flac">FLAC (Lossless Studio)</option>
+                </optgroup>
+            </select>
+            
+            <button type="submit" id="downloadBtn">
+                <span class="btn-text">Download</span>
+                <div class="loader"></div>
+            </button>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('downloadForm');
+        const btn = document.getElementById('downloadBtn');
+        form.addEventListener('submit', function() {
+            btn.classList.add('loading');
+            // Extended loader time for heavy 4K rendering
+            setTimeout(() => { btn.classList.remove('loading'); }, 60000); 
+        });
+    </script>
+</body>
+</html>
